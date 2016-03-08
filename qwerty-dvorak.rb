@@ -39,7 +39,7 @@ full_dictionary  = File.read('/usr/share/dict/words').split(/[\r\n]/)
 valid_dict = full_dictionary.reject { |word| word[/[eqwz]/i] != nil }
 
 $index = {}
-valid_dict.each { |word| $index[word] = true }
+full_dictionary.each { |word| $index[word] = true }
 
 valid_dict.each do |word|
   dv_word = to_dvorak(word)
