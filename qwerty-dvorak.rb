@@ -24,28 +24,14 @@ $qwerty_to_dvorak = {
   'y' => 'f'
 }
 
-$str_buf = ""
-def to_dvorak(qwerty_str)
-  $str_buf = ""
-  qwerty_str.each_char { |char|
-    char = $qwerty_to_dvorak[char]
-    return nil unless char
-    $str_buf << char
-  }
-  $str_buf
-end
-
-full_dictionary  = File.read('/usr/share/dict/words').split(/[\r\n]/)
-valid_dict = full_dictionary.reject { |word| word[/[eqwz]/i] != nil }
+full_dictionary  = File.read('/usr/share/dict/words').split("\n")
 
 $index = {}
 full_dictionary.each { |word| $index[word] = true }
 
-valid_dict.each do |word|
-  dv_word = to_dvorak(word)
-  if dv_word
-    if $index[dv_word] != nil
-      puts "qwerty: " + word + " | dvorak: " + dv_word
-    end
-  end
+full_dictionary.each do |word|
+  next unless word[/[eqwz]/i] == nil
+
+  dv_word = word.downcase.chars.map { |c| $qwerty_to_dvorak[c] }.join
+  puts "qwerty: " + word + " | dvorak: " + dv_word if $index[dv_word] != nil
 end
